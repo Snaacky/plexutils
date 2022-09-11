@@ -1,0 +1,6 @@
+plex:
+  baseurl: "https://plex.yourdomain.com:443"
+  token: "your_plex_token_from_your_xml"
+tvdb:
+  apikey: "your-tvdb-api-key-here"
+  pin: "tvdbtoken"
