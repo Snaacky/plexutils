@@ -16,14 +16,18 @@ class FindMissingEpisodes():
         self.check_library("Anime")
 
     def check_library(self, library: str) -> None:
-        library = self.plex.library.section(library)
-        for plex_show in library.all():
-
+        for plex_show in self.plex.library.section(library).all():
             tvdb_id = self.get_tvdbid_for_title(plex_show)
             if not tvdb_id:
                 continue
 
-            tvdb_show = self.tvdb.get_series_extended(tvdb_id)
+            try:
+                tvdb_show = self.tvdb.get_series_extended(tvdb_id)
+            except ValueError:
+                self.logger.info(f"[??????] {plex_show.title}")
+                self.logger.info("  <red> - TVDB ID not found for title, doesn't exist on TVDB?</red>")
+                continue
+
             tvdb_seasons = self.get_clean_tvdb_seasons(tvdb_show)
 
             tvdb_episodes = []
