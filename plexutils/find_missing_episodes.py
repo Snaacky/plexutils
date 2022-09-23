@@ -10,7 +10,7 @@ from plexutils.utils.connections import connect_to_tvdb, connect_to_plex
 class FindMissingEpisodes():
     def __init__(self) -> None:
         self.logger = logger.opt(ansi=True)
-        self.config = parse_config("../config.yml")
+        self.config = parse_config("config.yml")
         self.plex = connect_to_plex(baseurl=self.config["plex"]["baseurl"], token=self.config["plex"]["token"])
         self.tvdb = connect_to_tvdb(api_key=self.config["tvdb"]["apikey"], token=self.config["tvdb"]["pin"])
         self.check_library("Anime")
@@ -56,7 +56,8 @@ class FindMissingEpisodes():
                         f"TVDB: {len(season['episodes'])}</yellow>"
                     )
                 else:
-                    self.logger.info(f"  <green> - Season {season['number']} episodes match TVDB</green>")
+                    continue
+                    # self.logger.info(f"  <green> - Season {season['number']} episodes match TVDB</green>")
 
     def has_season_aired(self, season: dict) -> bool:
         """Checks if the release date of the first episode of the season has passed."""
